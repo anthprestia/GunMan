@@ -1,13 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public float speed = 5.0f;
     public GameObject bulletPrefab;
     private Animator anim;
     public bool isWalking;
-    float moveInput;
+    public float moveInput;
 
     public Transform firepoint;
 
@@ -22,6 +24,9 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = Input.GetAxisRaw("Horizontal");
         playAnimation(moveInput);
+
+        // Move the character left or right
+        transform.Translate(Vector3.right * Time.deltaTime * speed *  Math.Abs(moveInput));
 
     }
 
