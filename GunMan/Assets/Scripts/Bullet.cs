@@ -5,7 +5,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
 
-    public float speed = 20f;
+    public float speed;
+    public float lifetime;
     public Rigidbody2D rb;
 
 
@@ -14,6 +15,12 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         rb.velocity = transform.right * speed;
+        Invoke("DestroyProjectile", lifetime);
+    }
+
+    void DestroyProjectile()
+    {
+        Destroy(gameObject);
     }
 
     // Update is called once per frame
