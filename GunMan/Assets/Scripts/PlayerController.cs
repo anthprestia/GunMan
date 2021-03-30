@@ -12,12 +12,11 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
 
     public float speed = 5.0f;
-    public float jumpHeight = 10.0f;
+    public float jumpHeight = 5.0f;
 
     public bool isWalking;
     public float runInput;
     public float verticalInput;
-    
 
     public Transform firepoint;
 
@@ -55,13 +54,26 @@ public class PlayerController : MonoBehaviour
 
         RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, 0.1f, platformLayerMask);
 
-        Debug.Log(raycastHit2d.collider);
         return raycastHit2d.collider != null;
     }
 
-    void playAnimation(float runInput, float verticalInput)
+    void playAnimation(float horizontalInput, float verticalInput)
     {
-        if (runInput == 0)
+        // if vertical input == -1 crouch
+        // else if also horizontal != 0 then crawling
+        // else idle
+
+        // if vertical input == 0 then everything else
+
+        if (verticalInput == 0)
+        {
+            anim.SetBool("isCrouching", false);
+        }
+        else if (verticalInput < 0)
+        {
+            anim.SetBool("isCrouching", true);
+        }
+        if (horizontalInput == 0)
         {
             anim.SetBool("isWalking", false);
         }
@@ -69,7 +81,7 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("isWalking", true);
 
-            if (runInput > 0)
+            if (horizontalInput > 0)
             {
                 transform.eulerAngles = new Vector2(0, 0);
             }
